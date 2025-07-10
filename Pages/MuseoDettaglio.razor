@@ -1,0 +1,65 @@
+﻿@page "/musei/{Id}"
+@code {
+    [Parameter]
+    public string Id { get; set; } = "";
+
+    private Museo? museo;
+
+    protected async override void OnInitialized()
+    {
+        museo = MuseiData.GetById(Id);
+    }
+}
+
+@if (museo is null)
+{
+    <p>Museo non trovato.</p>
+}
+else
+{
+    <h2>@museo.Nome</h2>
+    <img src="@museo.ImmagineUrl" alt="@museo.Nome" style="width:300px" />
+    <p>@museo.Descrizione</p>
+    <a href="/">← Torna all’elenco</a>
+
+    @if (museo.Valutazioni == null || museo.Valutazioni.Length == 0)
+    {
+        <p><em>Questo museo non ha ancora una valutazione!</em></p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>INDICATORE</th>
+                    <th>UNITÀ DI MISURA</th>
+
+                    @if(museo.Valutazioni.Length == 1)
+                    {
+                        <th>VALORE</th>
+                    }
+                    else
+                    {
+                        <th>VALORE (PRE)</th>
+                        <th>VALORE (POST)</th>
+                    }
+
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>N ingressi accessibili</td>
+                    <td>[Numero]</td>
+                    <td>@museo.Valutazioni[0].Ningressi</td>
+                    @if (museo.Valutazioni.Length > 1)
+                    {
+                        <td>@museo.Valutazioni[1].Ningressi</td>
+                    }
+                  
+                </tr>
+
+            </tbody>
+        </table>
+    }
+}

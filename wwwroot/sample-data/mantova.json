@@ -1,0 +1,42 @@
+[
+  {
+    "PostPNRR": false,
+    "Ningressi": 2,
+    "SegnaleticaBraille": 2,
+    "PercSpazi": 70,
+    "CanaliDig": 2,
+    "SpaziAtt": 16,
+    "Nlingue": 2,
+    "Mappa": true,
+    "AppScreenReader": false,
+    "SegnaleticaSonora": 0,
+    "Audiodescrizione": 1,
+    "FormazionePersonale": "5-6",
+    "UsciteEmergenza": 40,
+    "DistrSedute": 40,
+    "NBagni": 2,
+    "LarghezzaPercorsi": 1.35,
+    "AreeVisitabili": 40,
+    "PianoEmergenza": false
+  },
+  {
+    "PostPNRR": true,
+    "Ningressi": 4,
+    "SegnaleticaBraille": 3,
+    "PercSpazi": 80,
+    "CanaliDig": 2,
+    "SpaziAtt": 35,
+    "Nlingue": 2,
+    "Mappa": true,
+    "AppScreenReader": false,
+    "SegnaleticaSonora": 0,
+    "Audiodescrizione": 1,
+    "FormazionePersonale": "5-6",
+    "UsciteEmergenza": 55,
+    "DistrSedute": 40,
+    "NBagni": 3,
+    "LarghezzaPercorsi": 1.35,
+    "AreeVisitabili": 55,
+    "PianoEmergenza": true
+  }
+]

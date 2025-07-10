@@ -1,0 +1,13 @@
+﻿/* Home.razor.css */
+.museo-link {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #2a4d69;
+    text-decoration: none;
+    display: block;
+    padding: 8px 0;
+}
+
+    .museo-link:hover {
+        color: #4b86b4;
+    }
