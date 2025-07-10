@@ -2,14 +2,63 @@
 @code {
     [Parameter]
     public string Id { get; set; } = "";
+    private string? larghezzaFinale = "0%";
+    private string? larghezzaFinalePost = "0%";
 
     private Museo? museo;
+    private bool showEquity = false;
+    private bool showFlexibility = false;
+    private bool showUsage = false;
+    private bool showInformation = false;
+    private bool showTolerance = false;
+    private bool showLowEffort = false;
+    private bool showSpace = false;
 
     protected async override void OnInitialized()
     {
         museo = MuseiData.GetById(Id);
     }
+
+    private void ShowEquity     () => showEquity      = !showEquity;
+    private void ShowFlexibility() => showFlexibility = !showFlexibility;
+    private void ShowUsage      () => showUsage       = !showUsage;
+    private void ShowInformation() => showInformation = !showInformation;
+    private void ShowTolerance  () => showTolerance   = !showTolerance;
+    private void ShowLowEffort  () => showLowEffort   = !showLowEffort;
+    private void ShowSpace      () => showSpace       = !showSpace;
+
+    private string GetColor(int index)
+    {
+        double val = museo.Valutazioni[index].PunteggioGenerale;
+        return val switch
+        {
+            <= 25.0 => "rosso",
+            <= 50.0 => "arancione",
+            <= 75.0 => "giallo",
+            _ => "verde"
+        };
+    }
+
+    private string GetAnimatedWidth(int val) => $"{val}%";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && museo.Valutazioni != null && museo.Valutazioni.Length > 0)
+        {
+            // Attiva animazione dopo 100ms
+            await Task.Delay(200);
+            larghezzaFinale = GetAnimatedWidth(Convert.ToInt32(museo.Valutazioni[0].PunteggioGenerale));
+            if (museo.Valutazioni.Length > 1)
+            {
+                larghezzaFinalePost = GetAnimatedWidth(Convert.ToInt32(museo.Valutazioni[1].PunteggioGenerale));
+            }
+            StateHasChanged();
+        }
+    }
+
 }
+
+<div style="display: flex; flex-direction: column; gap: 20px;">
 
 @if (museo is null)
 {
@@ -20,46 +69,420 @@ else
     <h2>@museo.Nome</h2>
     <img src="@museo.ImmagineUrl" alt="@museo.Nome" style="width:300px" />
     <p>@museo.Descrizione</p>
-    <a href="/">← Torna all’elenco</a>
+
+
+
 
     @if (museo.Valutazioni == null || museo.Valutazioni.Length == 0)
     {
-        <p><em>Questo museo non ha ancora una valutazione!</em></p>
-    }
-    else
-    {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>INDICATORE</th>
-                    <th>UNITÀ DI MISURA</th>
-
-                    @if(museo.Valutazioni.Length == 1)
+            <p><em>Questo museo non ha ancora una valutazione!</em></p>
+        }
+        else
+        {
+         <div style="display: flex; flex-direction: column; gap: 1px;">
+            <div style="display: flex; gap: 5px; align-items:center">
+                    @if (museo.Valutazioni.Length > 1)
                     {
-                        <th>VALORE</th>
+                        <div style="color:black; font-weight:bolder; width:150px">
+                            PUNTEGGIO PRE
+                        </div>
                     }
                     else
                     {
-                        <th>VALORE (PRE)</th>
-                        <th>VALORE (POST)</th>
+                        <div style="color:black; font-weight:bolder">
+                            PUNTEGGIO
+                        </div>
                     }
+               <div class="barra-container">
+                   <span class="punteggio">@museo.Valutazioni[0].PunteggioGenerale / 100.0</span>
+                   <div class="barra @GetColor(0)" style="width:@larghezzaFinale"></div>
+               </div>
+            </div>
 
-                </tr>
-            </thead>
-            <tbody>
+               @if(museo.Valutazioni.Length > 1)
+               {
+                    <div style="display: flex; gap: 5px; align-items:center">
+                        <div style="color:black; font-weight:bolder; width:150px">
+                            PUNTEGGIO POST
+                        </div>
+                        <div class="barra-container">
+                            <span class="punteggio">@museo.Valutazioni[1].PunteggioGenerale / 100.0</span>
+                            <div class="barra @GetColor(1)" style="width:@larghezzaFinalePost"></div>
+                        </div>
+                    </div>
+               }
+         </div>
 
-                <tr>
-                    <td>N ingressi accessibili</td>
-                    <td>[Numero]</td>
-                    <td>@museo.Valutazioni[0].Ningressi</td>
-                    @if (museo.Valutazioni.Length > 1)
-                    {
-                        <td>@museo.Valutazioni[1].Ningressi</td>
-                    }
-                  
-                </tr>
+            <div style="display: flex; flex-direction: column; gap: 1px;">
+                @if (museo.Valutazioni.Length > 1)
+                {
+                    <p style="font-size:0.75rem"><em>Le valutazioni comprendono i valori precedenti agli interventi PNRR (PRE) e i valori successivi (POST)</em></p>
+                }
+                <p style="font-size:0.75rem"><em>Legenda punteggio qualitativo 0 = ASSENTE; 1 = SCARSO; 2 = SUFFICIENTE; 3 = OTTIMO</em></p>
+            </div>
 
-            </tbody>
-        </table>
+        <button class="btn btn-inverse" style="font-size:1.5rem;" @onclick="ShowEquity">
+            Equità d'uso
+        </button>
+
+        @if (showEquity)
+        {
+            <table class="table table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>INDICATORI</th>
+
+                        @if (museo.Valutazioni.Length == 1)
+                        {
+                            <th></th>
+                        }
+                        else
+                        {
+                            <th>PRE</th>
+                            <th>POST</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+
+                        <tr>
+                            <td>N ingressi accessibili</td>
+                            <td>@museo.Valutazioni[0].Ningressi</td>
+                            @if (museo.Valutazioni.Length > 1)
+                            {
+                                <td>@museo.Valutazioni[1].Ningressi</td>
+                            }
+
+                        </tr>
+
+                        <tr>
+                            <td>Segnaletica in Braille - pittogrammi</td>
+                            <td>@museo.Valutazioni[0].SegnaleticaBraille %</td>
+                            @if (museo.Valutazioni.Length > 1)
+                            {
+                                <td>@museo.Valutazioni[1].SegnaleticaBraille %</td>
+                            }
+
+                        </tr>
+
+                        <tr>
+                            <td>Spazi accessibili da tutti</td>
+                            <td>@museo.Valutazioni[0].PercSpazi %</td>
+                            @if (museo.Valutazioni.Length > 1)
+                            {
+                                <td>@museo.Valutazioni[1].PercSpazi %</td>
+                            }
+
+                        </tr>
+
+                        <tr>
+                            <td>Canali digitali/assistenza disponibili</td>
+                            <td>@museo.Valutazioni[0].CanaliDig</td>
+                            @if (museo.Valutazioni.Length > 1)
+                            {
+                                <td>@museo.Valutazioni[1].CanaliDig</td>
+                            }
+
+                        </tr>
+                    
+                </tbody>
+            </table>
+        }
+
+        <button class="btn btn-inverse" style="font-size:1.5rem;" @onclick="ShowFlexibility">
+            Flessibilità d'uso
+        </button>
+
+        @if (showFlexibility)
+        {
+            <table class="table table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>INDICATORI</th>
+
+                        @if (museo.Valutazioni.Length == 1)
+                        {
+                            <th></th>
+                        }
+                        else
+                        {
+                            <th>PRE</th>
+                            <th>POST</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr>
+                            <td>Superficie spazi dedicati ad altre attività</td>
+                            <td>@museo.Valutazioni[0].SpaziAtt %</td>
+                            @if (museo.Valutazioni.Length > 1)
+                            {
+                                <td>@museo.Valutazioni[1].SpaziAtt %</td>
+                            }
+
+                        </tr>
+
+                        <tr>
+                            <td>N lingue supportate in audio e pannelli</td>
+                            <td>@museo.Valutazioni[0].Nlingue</td>
+                            @if (museo.Valutazioni.Length > 1)
+                            {
+                                <td>@museo.Valutazioni[1].Nlingue</td>
+                            }
+
+                        </tr>
+                </tbody>
+            </table>
+        }
+
+        <button class="btn btn-inverse" style="font-size:1.5rem;" @onclick="ShowUsage">
+            Uso semplice e intuitivo
+        </button>
+
+        @if (showUsage)
+        {
+            <table class="table table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>INDICATORI</th>
+
+                        @if (museo.Valutazioni.Length == 1)
+                        {
+                            <th></th>
+                        }
+                        else
+                        {
+                            <th>PRE</th>
+                            <th>POST</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr>
+                            <td>Presenza mappa</td>
+                            <td>
+                                <div class="cerchio @(museo.Valutazioni[0].Mappa ? "verde" : "rosso")"></div>
+                            </td>
+                            @if (museo.Valutazioni.Length > 1)
+                            {
+                                <td>
+                                    <div class="cerchio @(museo.Valutazioni[1].Mappa ? "verde" : "rosso")"></div>
+                                </td>
+                            }
+
+                        </tr>
+
+                        <tr>
+                            <td>App fruibile con screen reader/UX semplificata</td>
+                            <td>
+                                <div class="cerchio @(museo.Valutazioni[0].AppScreenReader ? "verde" : "rosso")"></div>
+                            </td>
+                            @if (museo.Valutazioni.Length > 1)
+                            {
+                                <td>
+                                    <div class="cerchio @(museo.Valutazioni[1].AppScreenReader ? "verde" : "rosso")"></div>
+                                </td>
+                            }
+
+                        </tr>
+                </tbody>
+            </table>
+        }
+
+        <button class="btn btn-inverse" style="font-size:1.5rem;" @onclick="ShowInformation">
+            Informazione percettibile
+        </button>
+
+        @if (showInformation)
+        {
+            <table class="table table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>INDICATORI</th>
+
+                        @if (museo.Valutazioni.Length == 1)
+                        {
+                            <th></th>
+                        }
+                        else
+                        {
+                            <th>PRE</th>
+                            <th>POST</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr>
+                            <td>Segnaletica sonora/tattile</td>
+                            <td>@museo.Valutazioni[0].SegnaleticaSonora</td>
+                            @if (museo.Valutazioni.Length > 1)
+                            {
+                                <td>@museo.Valutazioni[1].SegnaleticaSonora</td>
+                            }
+
+                        </tr>
+                        <tr>
+                            <td>Presenza di audiodescrizione/sottotitoli/LIS</td>
+                            <td>@museo.Valutazioni[0].Audiodescrizione</td>
+                            @if (museo.Valutazioni.Length > 1)
+                            {
+                                <td>@museo.Valutazioni[1].Audiodescrizione</td>
+                            }
+
+                        </tr>
+                </tbody>
+            </table>
+        }
+
+        <button class="btn btn-inverse" style="font-size:1.5rem;" @onclick="ShowTolerance">
+            Tolleranza agli errori
+        </button>
+
+        @if (showTolerance)
+        {
+            <table class="table table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>INDICATORI</th>
+
+                        @if (museo.Valutazioni.Length == 1)
+                        {
+                            <th></th>
+                        }
+                        else
+                        {
+                            <th>PRE</th>
+                            <th>POST</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr>
+                            <td>N ore di formazione annuali del personale</td>
+                            <td>@museo.Valutazioni[0].FormazionePersonale</td>
+                            @if (museo.Valutazioni.Length > 1)
+                            {
+                                <td>@museo.Valutazioni[1].FormazionePersonale</td>
+                            }
+
+                        </tr>
+                        <tr>
+                            <td>Disponibilità di uscite di emergenza accessibili</td>
+                            <td>@museo.Valutazioni[0].UsciteEmergenza %</td>
+                            @if (museo.Valutazioni.Length > 1)
+                            {
+                                <td>@museo.Valutazioni[1].UsciteEmergenza %</td>
+                            }
+
+                        </tr>
+                </tbody>
+            </table>
+        }
+
+        <button class="btn btn-inverse" style="font-size:1.5rem;" @onclick="ShowLowEffort">
+            Basso sforzo fisico
+        </button>
+
+        @if (showLowEffort)
+        {
+            <table class="table table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>INDICATORI</th>
+
+                        @if (museo.Valutazioni.Length == 1)
+                        {
+                            <th></th>
+                        }
+                        else
+                        {
+                            <th>PRE</th>
+                            <th>POST</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr>
+                            <td>Distribuzione delle sedute</td>
+                            <td>@museo.Valutazioni[0].DistrSedute</td>
+                            @if (museo.Valutazioni.Length > 1)
+                            {
+                                <td>@museo.Valutazioni[1].DistrSedute</td>
+                            }
+
+                        </tr>
+                        <tr>
+                            <td>N di bagni accessibili</td>
+                            <td>@museo.Valutazioni[0].NBagni</td>
+                            @if (museo.Valutazioni.Length > 1)
+                            {
+                                <td>@museo.Valutazioni[1].NBagni</td>
+                            }
+
+                        </tr>
+                </tbody>
+            </table>
+        }
+
+        <button class="btn btn-inverse" style="font-size:1.5rem;" @onclick="ShowSpace">
+            Misura e spazio adeguato
+        </button>
+
+        @if (showSpace)
+        {
+            <table class="table table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>INDICATORI</th>
+
+                        @if (museo.Valutazioni.Length == 1)
+                        {
+                            <th></th>
+                        }
+                        else
+                        {
+                            <th>PRE</th>
+                            <th>POST</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr>
+                            <td>Larghezza media percorsi</td>
+                            <td>@museo.Valutazioni[0].LarghezzaPercorsi m</td>
+                            @if (museo.Valutazioni.Length > 1)
+                            {
+                                <td>@museo.Valutazioni[1].LarghezzaPercorsi m</td>
+                            }
+
+                        </tr>
+                        <tr>
+                            <td>Aree visitabili senza ostacoli o con chiara segnalazione</td>
+                            <td>@museo.Valutazioni[0].AreeVisitabili %</td>
+                            @if (museo.Valutazioni.Length > 1)
+                            {
+                                <td>@museo.Valutazioni[1].AreeVisitabili %</td>
+                            }
+
+                        </tr>
+                        <tr>
+                            <td>Piano di emergenza che contempli i diversamente abili</td>
+                            <td>
+                                <div class="cerchio @(museo.Valutazioni[0].PianoEmergenza ? "verde" : "rosso")"></div>
+                            </td>
+                            @if (museo.Valutazioni.Length > 1)
+                            {
+                                <td>
+                                    <div class="cerchio @(museo.Valutazioni[1].PianoEmergenza ? "verde" : "rosso")"></div>
+                                </td>
+                            }
+
+                        </tr>
+                </tbody>
+            </table>
+        }
+
+      
     }
 }
+</div>

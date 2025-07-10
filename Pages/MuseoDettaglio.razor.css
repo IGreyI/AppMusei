@@ -1,0 +1,41 @@
+﻿.barra-container {
+    position: relative;
+    background-color: #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 24px;
+    width: 100%;
+    max-width: 400px;
+    margin: 10px 0;
+}
+
+.barra {
+    height: 100%;
+    transition: width 1.5s ease-out;
+}
+
+.rosso {
+    background-color: #dc3545;
+}
+
+.arancione {
+    background-color: #fd7e14;
+}
+
+.giallo {
+    background-color: #ffc107;
+}
+
+.verde {
+    background-color: #28a745;
+}
+
+.punteggio {
+    position: absolute;
+    left: 8px;
+    top: 2px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 2px #000;
+    z-index: 1;
+}

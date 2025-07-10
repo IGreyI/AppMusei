@@ -28,15 +28,31 @@ Seleziona un museo
     {
         if(MuseiData.Elenco.Count == 0)
         {
-            MuseiData.Elenco.Add(
-    new Museo()
-    {
-        Id = "mantova",
-        Nome = "PALAZZO DUCALE DI MANTOVA",
-        Descrizione = "Il Palazzo Ducale di Mantova, noto anche come reggia dei Gonzaga, è uno dei principali edifici storici cittadini.",
-        ImmagineUrl = "mantova.jpg",
-    }
-);
+            MuseiData.Elenco.AddRange([
+                new Museo()
+                {
+                    Id = "mantova",
+                    Nome = "PALAZZO DUCALE DI MANTOVA",
+                    Descrizione = "Il Palazzo Ducale di Mantova, noto anche come reggia dei Gonzaga, è uno dei principali edifici storici cittadini.",
+                    ImmagineUrl = "mantova.jpg",
+                },
+
+                new Museo()
+                {
+                    Id = "mantova_pre",
+                    Nome = "PALAZZO DUCALE DI MANTOVA (PRE PNRR)",
+                    Descrizione = "Il Palazzo Ducale di Mantova, noto anche come reggia dei Gonzaga, è uno dei principali edifici storici cittadini.",
+                    ImmagineUrl = "mantova.jpg",
+                },
+
+                new Museo()
+                {
+                    Id = "altro",
+                    Nome = "ALTRO MUSEO SENZA VALUTAZIONE",
+                    Descrizione = "Questo museo non esiste, è una prova per vedere la pagina senza valutazione.",
+                    ImmagineUrl = "egizio.jpg",
+                }
+            ]);
 
             for (int ii = 0; ii < MuseiData.Elenco.Count; ii++)
             {
@@ -47,7 +63,15 @@ Seleziona un museo
 
     public async Task<Valutazione[]?> GetEval(string id)
     {
-        string json = await Http.GetStringAsync($"sample-data/{id}.json");
-        return JsonSerializer.Deserialize<Valutazione[]?>(json);
+        try
+        {
+            string json = await Http.GetStringAsync($"sample-data/{id}.json");
+            if (!string.IsNullOrEmpty(json)) return JsonSerializer.Deserialize<Valutazione[]?>(json);
+            else return null;
+        }
+        catch(Exception ex)
+        {
+            return null;
+        }
     }
 }

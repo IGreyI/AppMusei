@@ -10,6 +10,7 @@
 
     public class Valutazione
     {
+        public double PunteggioGenerale { get; set; }
         public bool PostPNRR { get; set; }
 
         // N ingressi accessibili || Numero
