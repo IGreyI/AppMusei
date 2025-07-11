@@ -20,6 +20,12 @@ a, .btn-link {
     color: #1b6ec2;
     background-color: #fff;
     border-color: #1861ac;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #0b5ed7;
+    --bs-btn-hover-border-color: #0a58ca;
+    --bs-btn-active-color: #1b6ec2;
+    --bs-btn-active-bg: #fff;
+    --bs-btn-active-border-color: #1861ac;
 }
 /*
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
