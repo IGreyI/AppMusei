@@ -480,10 +480,10 @@ else
                 <tbody>
                         <tr>
                             <td style="font-size:0.9rem">Larghezza media percorsi</td>
-                            <td style="background-color:@GetColor((int)museo.Valutazioni[0].LarghezzaPercorsi, DataType.NUMBER, 5); color:white; text-align: right; vertical-align: middle; font-weight:bold;">@museo.Valutazioni[0].LarghezzaPercorsi m</td>
+                            <td style="background-color:@GetColor((int)museo.Valutazioni[0].LarghezzaPercorsi, DataType.NUMBER, 5); color:white; text-align: right; vertical-align: middle; font-weight:bold; white-space: nowrap;">@museo.Valutazioni[0].LarghezzaPercorsi m</td>
                             @if (museo.Valutazioni.Length > 1)
                             {
-                                <td style="background-color:@GetColor((int)museo.Valutazioni[1].LarghezzaPercorsi, DataType.NUMBER, 5); color:white; text-align: right; vertical-align: middle; font-weight:bold;">@museo.Valutazioni[1].LarghezzaPercorsi m</td>
+                                <td style="background-color:@GetColor((int)museo.Valutazioni[1].LarghezzaPercorsi, DataType.NUMBER, 5); color:white; text-align: right; vertical-align: middle; font-weight:bold; white-space: nowrap;">@museo.Valutazioni[1].LarghezzaPercorsi m</td>
                             }
 
                         </tr>
