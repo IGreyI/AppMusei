@@ -17,13 +17,11 @@ Seleziona un museo
                 <a class="museo-link" href="@($"/musei/{museo.Id}")">@museo.Nome</a>
             </li>
         }
-    
-
 </ul>
 
+<p style="text-align:start; color:gray; position: absolute; bottom: 0;">v0.9.3 11/07/2025</p>
+
 @code {
-
-
     protected async override void OnInitialized()
     {
         if(MuseiData.Elenco.Count == 0)
@@ -37,20 +35,20 @@ Seleziona un museo
                     ImmagineUrl = "mantova.jpg",
                 },
 
-                new Museo()
-                {
-                    Id = "mantova_pre",
-                    Nome = "PALAZZO DUCALE DI MANTOVA (PRE PNRR)",
-                    Descrizione = "Il Palazzo Ducale di Mantova, noto anche come reggia dei Gonzaga, è uno dei principali edifici storici cittadini.",
-                    ImmagineUrl = "mantova.jpg",
-                },
+                // new Museo()
+                // {
+                //     Id = "mantova_pre",
+                //     Nome = "PALAZZO DUCALE DI MANTOVA (PRE PNRR)",
+                //     Descrizione = "Il Palazzo Ducale di Mantova, noto anche come reggia dei Gonzaga, è uno dei principali edifici storici cittadini.",
+                //     ImmagineUrl = "mantova.jpg",
+                // },
 
                 new Museo()
                 {
-                    Id = "altro",
-                    Nome = "ALTRO MUSEO SENZA VALUTAZIONE",
-                    Descrizione = "Questo museo non esiste, è una prova per vedere la pagina senza valutazione.",
-                    ImmagineUrl = "egizio.jpg",
+                    Id = "louvre",
+                    Nome = "MUSEO DEL LOUVRE",
+                    Descrizione = "Il Museo del Louvre di Parigi, in Francia, è uno dei più celebri musei del mondo e il primo per numero di visitatori (9,6 milioni nel 2019). Si trova sulla rive droite, nel primo arrondissement, tra la Senna e rue de Rivoli.",
+                    ImmagineUrl = "louvre.jpg",
                 }
             ]);
 

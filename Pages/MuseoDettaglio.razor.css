@@ -14,19 +14,19 @@
     transition: width 1.5s ease-out;
 }
 
-.rosso {
+.barra-rossa {
     background-color: #dc3545;
 }
 
-.arancione {
+.barra-arancio {
     background-color: #fd7e14;
 }
 
-.giallo {
+.barra-gialla {
     background-color: #ffc107;
 }
 
-.verde {
+.barra-verde {
     background-color: #28a745;
 }
 
