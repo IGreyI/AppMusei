@@ -185,7 +185,7 @@ else
                 <tbody>
 
                         <tr>
-                            <td>N ingressi accessibili</td>
+                            <td style="font-size:0.9rem">N ingressi accessibili</td>
                             <td style="background-color:@GetColor(museo.Valutazioni[0].Ningressi, DataType.NUMBER, 5); color:white; text-align: right; vertical-align: middle; font-weight:bold;">@museo.Valutazioni[0].Ningressi</td>
                             @if (museo.Valutazioni.Length > 1)
                             {
@@ -195,7 +195,7 @@ else
                         </tr>
 
                         <tr>
-                            <td>Segnaletica in Braille - pittogrammi [%]</td>
+                            <td style="font-size:0.9rem">Segnaletica in Braille - pittogrammi [%]</td>
                             <td style="background-color:@GetColor(museo.Valutazioni[0].SegnaleticaBraille, DataType.PERCENTAGE); color:white; text-align: right; vertical-align: middle; font-weight:bold">@museo.Valutazioni[0].SegnaleticaBraille</td>
                             @if (museo.Valutazioni.Length > 1)
                             {
@@ -205,7 +205,7 @@ else
                         </tr>
 
                         <tr>
-                            <td>Spazi accessibili da tutti [%]</td>
+                            <td style="font-size:0.9rem">Spazi accessibili da tutti [%]</td>
                             <td style="background-color:@GetColor(museo.Valutazioni[0].PercSpazi, DataType.PERCENTAGE); color:white; text-align: right; vertical-align: middle; font-weight:bold">@museo.Valutazioni[0].PercSpazi</td>
                             @if (museo.Valutazioni.Length > 1)
                             {
@@ -215,11 +215,11 @@ else
                         </tr>
 
                         <tr>
-                            <td>Canali digitali/assistenza disponibili</td>
-                            <td style="background-color:@GetColor((int)museo.Valutazioni[0].CanaliDig, DataType.NUMBER, 3); color:white; text-align: right; vertical-align: middle; font-weight:bold">@museo.Valutazioni[0].CanaliDig</td>
+                            <td style="font-size:0.9rem">Canali digitali / assistenza disponibili</td>
+                            <td style="background-color:@GetColor((int)museo.Valutazioni[0].CanaliDig, DataType.NUMBER, 3); color:white; text-align: right; vertical-align: middle; font-weight:bold; font-size:0.9rem">@museo.Valutazioni[0].CanaliDig</td>
                             @if (museo.Valutazioni.Length > 1)
                             {
-                                <td style="background-color:@GetColor((int)museo.Valutazioni[1].CanaliDig, DataType.NUMBER, 3); color:white; text-align: right; vertical-align: middle; font-weight:bold">@museo.Valutazioni[1].CanaliDig</td>
+                                <td style="background-color:@GetColor((int)museo.Valutazioni[1].CanaliDig, DataType.NUMBER, 3); color:white; text-align: right; vertical-align: middle; font-weight:bold; font-size:0.9rem">@museo.Valutazioni[1].CanaliDig</td>
                             }
 
                         </tr>
@@ -345,7 +345,7 @@ else
                 </thead>
                 <tbody>
                         <tr>
-                            <td>Segnaletica sonora/tattile</td>
+                            <td>Segnaletica sonora / tattile</td>
                             <td style="background-color:@GetColor((int)museo.Valutazioni[0].SegnaleticaSonora, DataType.NUMBER, 3); color:white; text-align: right; vertical-align: middle; font-weight:bold;">@museo.Valutazioni[0].SegnaleticaSonora</td>
                             @if (museo.Valutazioni.Length > 1)
                             {
@@ -354,7 +354,7 @@ else
 
                         </tr>
                         <tr>
-                            <td>Presenza di audiodescrizione/sottotitoli/LIS</td>
+                            <td>Presenza di audiodescrizione / sottotitoli / LIS</td>
                             <td style="background-color:@GetColor((int)museo.Valutazioni[0].Audiodescrizione, DataType.NUMBER, 3); color:white; text-align: right; vertical-align: middle; font-weight:bold">@museo.Valutazioni[0].Audiodescrizione</td>
                             @if (museo.Valutazioni.Length > 1)
                             {
