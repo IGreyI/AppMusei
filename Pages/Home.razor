@@ -24,8 +24,9 @@ Seleziona un museo
     {
         if(MuseiData.Elenco.Count == 0)
         {
-            MuseiData.Elenco.AddRange([
-                new Museo()
+            List<Museo> tmp = [];
+            tmp.AddRange([
+            new Museo()
                 {
                     Id = "mantova",
                     Nome = "PALAZZO DUCALE DI MANTOVA",
@@ -50,10 +51,15 @@ Seleziona un museo
                 }
             ]);
 
-            for (int ii = 0; ii < MuseiData.Elenco.Count; ii++)
+
+            for (int ii = 0; ii < tmp.Count; ii++)
             {
-                MuseiData.Elenco[ii].Valutazioni = await GetEval(MuseiData.Elenco[ii].Id);
+                tmp[ii].Valutazioni = await GetEval(tmp[ii].Id);
             }
+
+            MuseiData.Elenco = new(tmp);
+
+            StateHasChanged();
         }
     }
 

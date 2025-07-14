@@ -1,4 +1,9 @@
 ﻿@page "/musei/{Id}"
+
+@inject HttpClient Http
+@using System.Web
+@using System.Text.Json
+
 @code {
     [Parameter]
     public string Id { get; set; } = "";
@@ -23,7 +28,61 @@
 
     protected async override void OnInitialized()
     {
+        if(MuseiData.Elenco.Count == 0)
+        {
+            List<Museo> tmp = [];
+            tmp.AddRange([
+            new Museo()
+                {
+                    Id = "mantova",
+                    Nome = "PALAZZO DUCALE DI MANTOVA",
+                    Descrizione = "Storica residenza dei Gonzaga, è uno dei più grandi complessi monumentali d’Europa. Celebre per la Camera degli Sposi affrescata da Mantegna, unisce arte rinascimentale, architettura e giardini in un’unica visita immersiva.",
+                    ImmagineUrl = "mantova.jpg",
+                },
+
+                new Museo()
+                {
+                    Id = "grotte",
+                    Nome = "GROTTE DI CATULLO E MUSEO ARCHEOLOGICO DI SIRMIONE",
+                    Descrizione = "Uno dei siti archeologici romani più suggestivi d’Italia, situato in una posizione panoramica sul Lago di Garda. Combina rovine di una villa romana monumentale con un museo moderno e ben curato.",
+                    ImmagineUrl = "grotte.jpg",
+                },
+
+                new Museo()
+                {
+                    Id = "salce",
+                    Nome = "MUSEO NAZIONALE COLLEZIONE SALCE DI TREVISO",
+                    Descrizione = "Unico nel suo genere, conserva la più ampia collezione italiana di manifesti pubblicitari storici. Ospitato in un contesto architettonico elegante, unisce grafica, arte e storia della comunicazione.",
+                    ImmagineUrl = "salce.jpg",
+                }
+            ]);
+
+
+            for (int ii = 0; ii < tmp.Count; ii++)
+            {
+                tmp[ii].Valutazioni = await GetEval(tmp[ii].Id);
+            }
+
+            MuseiData.Elenco = new(tmp);
+        }
+
         museo = MuseiData.GetById(Id);
+
+        StateHasChanged();
+    }
+
+    public async Task<Valutazione[]?> GetEval(string id)
+    {
+        try
+        {
+            string json = await Http.GetStringAsync($"sample-data/{id}.json");
+            if (!string.IsNullOrEmpty(json)) return JsonSerializer.Deserialize<Valutazione[]?>(json);
+            else return null;
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
     }
 
     private void ShowEquity     () => showEquity      = !showEquity;
@@ -104,7 +163,7 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender && museo.Valutazioni != null && museo.Valutazioni.Length > 0)
+        if (museo.Valutazioni != null && museo.Valutazioni.Length > 0)
         {
             // Attiva animazione dopo 100ms
             await Task.Delay(200);
@@ -127,13 +186,13 @@
 
 @if (museo is null)
 {
-    <p>Museo non trovato.</p>
+    <p>Caricamento....</p>
 }
 else
 {
     <h2 style="text-align:center;">@museo.Nome</h2>
         <div style="text-align: center;">
-            <img src="@museo.ImmagineUrl" alt="@museo.Nome" style="width:50%" />
+            <img src="@museo.ImmagineUrl" alt="@museo.Nome" style="width:75%" />
         </div>
 
         <p style="text-align:center">@museo.Descrizione</p>
@@ -285,7 +344,7 @@ else
                         </tr>
 
                         <tr>
-                            <td>Lingue supportate in audio e pannelli</td>
+                            <td style="font-size:0.9rem">Lingue supportate in audio e pannelli</td>
                             <td style="background-color:@GetColor(museo.Valutazioni[0].Nlingue, DataType.NUMBER, 4); color:white; text-align: right; vertical-align: middle; font-weight:bold">@museo.Valutazioni[0].Nlingue</td>
                             @if (museo.Valutazioni.Length > 1)
                             {

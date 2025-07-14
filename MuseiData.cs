@@ -1,8 +1,10 @@
-﻿namespace AppMusei
+﻿using System.Collections.ObjectModel;
+
+namespace AppMusei
 {
     public static class MuseiData
     {
-        public static List<Museo> Elenco { get; set; } = [];
+        public static ObservableCollection<Museo> Elenco { get; set; } = [];
 
         public static Museo? GetById(string id) => Elenco.FirstOrDefault(m => m.Id == id);
     }
