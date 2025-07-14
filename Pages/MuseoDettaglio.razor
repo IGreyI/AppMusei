@@ -68,6 +68,29 @@
         // };
     }
 
+    private string GetColor(double val, DataType data = DataType.DUMMY, double maxNumber = 0)
+    {
+        if (data == DataType.NUMBER)
+        {
+            val = (val * 100) / maxNumber;
+        }
+
+        return val switch
+        {
+            <= 25 => "#dc3545",
+            <= 50 => "#fd7e14",
+            <= 75 => "#ffc107",
+            _ => "#28a745"
+        };
+        // return val switch
+        // {
+        //     <= 25 => "#EA9999",
+        //     <= 50 => "#F9CB9C",
+        //     <= 75 => "#F0E68C",
+        //     _ => "#D9EAD3"
+        // };
+    }
+
     private string GetColor(string val, DataType data = DataType.DUMMY, int maxNumber = 0)
     {
         // In case the value is 5-6
@@ -185,11 +208,11 @@ else
                 <tbody>
 
                         <tr>
-                            <td style="font-size:0.9rem">N ingressi accessibili</td>
-                            <td style="background-color:@GetColor(museo.Valutazioni[0].Ningressi, DataType.NUMBER, 5); color:white; text-align: right; vertical-align: middle; font-weight:bold;">@museo.Valutazioni[0].Ningressi</td>
+                            <td style="font-size:0.9rem">Ingressi accessibili</td>
+                            <td style="background-color:@GetColor(museo.Valutazioni[0].Ningressi, DataType.NUMBER, 4); color:white; text-align: right; vertical-align: middle; font-weight:bold;">@museo.Valutazioni[0].Ningressi</td>
                             @if (museo.Valutazioni.Length > 1)
                             {
-                                <td style="background-color:@GetColor(museo.Valutazioni[1].Ningressi, DataType.NUMBER, 5); color:white; text-align: right; vertical-align: middle; font-weight:bold;">@museo.Valutazioni[1].Ningressi</td>
+                                <td style="background-color:@GetColor(museo.Valutazioni[1].Ningressi, DataType.NUMBER, 4); color:white; text-align: right; vertical-align: middle; font-weight:bold;">@museo.Valutazioni[1].Ningressi</td>
                             }
 
                         </tr>
@@ -252,7 +275,7 @@ else
                 </thead>
                 <tbody>
                         <tr>
-                            <td style="font-size:0.9rem">Superficie spazi dedicati ad altre attività</td>
+                            <td style="font-size:0.9rem">Spazi dedicati ad altre attività</td>
                             <td style="background-color:@GetColor(museo.Valutazioni[0].SpaziAtt, DataType.PERCENTAGE); color:white; text-align: right; vertical-align: middle; font-weight:bold;">@museo.Valutazioni[0].SpaziAtt%</td>
                             @if (museo.Valutazioni.Length > 1)
                             {
@@ -262,11 +285,11 @@ else
                         </tr>
 
                         <tr>
-                            <td>N lingue supportate in audio e pannelli</td>
-                            <td style="background-color:@GetColor(museo.Valutazioni[0].Nlingue, DataType.NUMBER, 5); color:white; text-align: right; vertical-align: middle; font-weight:bold">@museo.Valutazioni[0].Nlingue</td>
+                            <td>Lingue supportate in audio e pannelli</td>
+                            <td style="background-color:@GetColor(museo.Valutazioni[0].Nlingue, DataType.NUMBER, 4); color:white; text-align: right; vertical-align: middle; font-weight:bold">@museo.Valutazioni[0].Nlingue</td>
                             @if (museo.Valutazioni.Length > 1)
                             {
-                                <td style="background-color:@GetColor(museo.Valutazioni[1].Nlingue, DataType.NUMBER, 5); color:white; text-align: right; vertical-align: middle; font-weight:bold">@museo.Valutazioni[0].Nlingue</td>
+                                <td style="background-color:@GetColor(museo.Valutazioni[1].Nlingue, DataType.NUMBER, 4); color:white; text-align: right; vertical-align: middle; font-weight:bold">@museo.Valutazioni[0].Nlingue</td>
                             }
 
                         </tr>
@@ -353,7 +376,7 @@ else
 
                         </tr>
                         <tr>
-                            <td style="font-size:0.9rem">Presenza di audiodescrizione / sottotitoli / LIS</td>
+                            <td style="font-size:0.9rem">Didascalie multisensoriali</td>
                             <td style="background-color:@GetColor((int)museo.Valutazioni[0].Audiodescrizione, DataType.NUMBER, 3); color:white; text-align: right; vertical-align: middle; font-weight:bold; font-size:0.9rem">@museo.Valutazioni[0].Audiodescrizione</td>
                             @if (museo.Valutazioni.Length > 1)
                             {
@@ -389,16 +412,16 @@ else
                 </thead>
                 <tbody>
                         <tr>
-                            <td style="font-size:0.9rem">N ore di formazione annuali del personale</td>
-                            <td style="background-color:@GetColor(museo.Valutazioni[0].FormazionePersonale, DataType.NUMBER, 5); color:white; text-align: right; vertical-align: middle; font-weight:bold;">@museo.Valutazioni[0].FormazionePersonale</td>
+                            <td style="font-size:0.9rem">Ore di formazione annuali del personale</td>
+                            <td style="background-color:@GetColor(museo.Valutazioni[0].FormazionePersonale, DataType.NUMBER, 10); color:white; text-align: right; vertical-align: middle; font-weight:bold;">@museo.Valutazioni[0].FormazionePersonale</td>
                             @if (museo.Valutazioni.Length > 1)
                             {
-                                <td style="background-color:@GetColor(museo.Valutazioni[1].FormazionePersonale, DataType.NUMBER, 5); color:white; text-align: right; vertical-align: middle; font-weight:bold;">@museo.Valutazioni[1].FormazionePersonale</td>
+                                <td style="background-color:@GetColor(museo.Valutazioni[1].FormazionePersonale, DataType.NUMBER, 10); color:white; text-align: right; vertical-align: middle; font-weight:bold;">@museo.Valutazioni[1].FormazionePersonale</td>
                             }
 
                         </tr>
                         <tr>
-                            <td style="font-size:0.9rem">Disponibilità di uscite di emergenza accessibili</td>
+                            <td style="font-size:0.9rem">Uscite di emergenza accessibili</td>
                             <td style="background-color:@GetColor(museo.Valutazioni[0].UsciteEmergenza, DataType.PERCENTAGE); color:white; text-align: right; vertical-align: middle; font-weight:bold">@museo.Valutazioni[0].UsciteEmergenza%</td>
                             @if (museo.Valutazioni.Length > 1)
                             {
@@ -435,19 +458,19 @@ else
                 <tbody>
                         <tr>
                             <td style="font-size:0.9rem">Distribuzione delle sedute</td>
-                            <td style="background-color:@GetColor(museo.Valutazioni[0].DistrSedute, DataType.NUMBER, 5); color:white; text-align: right; vertical-align: middle; font-weight:bold;">@museo.Valutazioni[0].DistrSedute</td>
+                            <td style="background-color:@GetColor(museo.Valutazioni[0].DistrSedute, DataType.PERCENTAGE); color:white; text-align: right; vertical-align: middle; font-weight:bold;">@museo.Valutazioni[0].DistrSedute%</td>
                             @if (museo.Valutazioni.Length > 1)
                             {
-                                <td style="background-color:@GetColor(museo.Valutazioni[1].DistrSedute, DataType.NUMBER, 5); color:white; text-align: right; vertical-align: middle; font-weight:bold;">@museo.Valutazioni[1].DistrSedute</td>
+                                <td style="background-color:@GetColor(museo.Valutazioni[1].DistrSedute, DataType.PERCENTAGE); color:white; text-align: right; vertical-align: middle; font-weight:bold;">@museo.Valutazioni[1].DistrSedute%</td>
                             }
 
                         </tr>
                         <tr>
-                            <td style="font-size:0.9rem">N di bagni accessibili</td>
-                            <td style="background-color:@GetColor(museo.Valutazioni[0].NBagni, DataType.NUMBER, 5); color:white; text-align: right; vertical-align: middle; font-weight:bold">@museo.Valutazioni[0].NBagni</td>
+                            <td style="font-size:0.9rem">Bagni accessibili</td>
+                            <td style="background-color:@GetColor(museo.Valutazioni[0].NBagni, DataType.NUMBER, 3); color:white; text-align: right; vertical-align: middle; font-weight:bold">@museo.Valutazioni[0].NBagni</td>
                             @if (museo.Valutazioni.Length > 1)
                             {
-                                <td style="background-color:@GetColor(museo.Valutazioni[1].NBagni, DataType.NUMBER, 5); color:white; text-align: right; vertical-align: middle; font-weight:bold">@museo.Valutazioni[1].NBagni</td>
+                                <td style="background-color:@GetColor(museo.Valutazioni[1].NBagni, DataType.NUMBER, 3); color:white; text-align: right; vertical-align: middle; font-weight:bold">@museo.Valutazioni[1].NBagni</td>
                             }
 
                         </tr>
@@ -480,10 +503,10 @@ else
                 <tbody>
                         <tr>
                             <td style="font-size:0.9rem">Larghezza media percorsi</td>
-                            <td style="background-color:@GetColor((int)museo.Valutazioni[0].LarghezzaPercorsi, DataType.NUMBER, 5); color:white; text-align: right; vertical-align: middle; font-weight:bold; white-space: nowrap;">@museo.Valutazioni[0].LarghezzaPercorsi m</td>
+                            <td style="background-color:@GetColor(museo.Valutazioni[0].LarghezzaPercorsi, DataType.NUMBER, 1.5); color:white; text-align: right; vertical-align: middle; font-weight:bold; white-space: nowrap;">@museo.Valutazioni[0].LarghezzaPercorsi m</td>
                             @if (museo.Valutazioni.Length > 1)
                             {
-                                <td style="background-color:@GetColor((int)museo.Valutazioni[1].LarghezzaPercorsi, DataType.NUMBER, 5); color:white; text-align: right; vertical-align: middle; font-weight:bold; white-space: nowrap;">@museo.Valutazioni[1].LarghezzaPercorsi m</td>
+                                <td style="background-color:@GetColor(museo.Valutazioni[1].LarghezzaPercorsi, DataType.NUMBER, 1.5); color:white; text-align: right; vertical-align: middle; font-weight:bold; white-space: nowrap;">@museo.Valutazioni[1].LarghezzaPercorsi m</td>
                             }
 
                         </tr>
